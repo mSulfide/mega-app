@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
+import Esse from './components/Esse/Esse';
 
 export enum EPAGES {
   GRAPH_2D = 'graph2D',
@@ -17,6 +18,8 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <Header setPageName={setPageName} />
+      
+      {pageName === EPAGES.ESSE && <Esse/>}
     </div>
   );
 }
