@@ -2,24 +2,26 @@ import React, { useState } from 'react';
 import './App.css';
 import Header from './components/Header/Header';
 import Esse from './components/Esse/Esse';
+import StudentSimulator from './components/StudentSimulator/StudentSimulator';
 
-export enum EPAGES {
-  GRAPH_2D = 'graph2D',
-  GRAPH_3D = 'graph3D',
-  UNICALCULATOR = 'UniCalculator',
-  STUDENT_SIMULATOR = 'studentSimulator',
-  ESSE = 'esse'
+export enum EPages {
+  graph2D = 'graph2D',
+  graph3D = 'graph3D',
+  calculator = 'UniCalculator',
+  studentSimulator = 'studentSimulator',
+  esse = 'esse'
 
 }
 
 const App: React.FC = () => {
-  const [pageName, setPageName] = useState<EPAGES>(EPAGES.GRAPH_3D);
+  const [pageName, setPageName] = useState<EPages>(EPages.graph3D);
 
   return (
     <div className="app">
       <Header setPageName={setPageName} />
-      
-      {pageName === EPAGES.ESSE && <Esse/>}
+
+      {pageName === EPages.esse && <Esse />}
+      {pageName === EPages.studentSimulator && <StudentSimulator />}
     </div>
   );
 }
