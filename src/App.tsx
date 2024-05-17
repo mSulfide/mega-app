@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/Header/Header';
 import Esse from './components/Esse/Esse';
 import StudentSimulator from './components/StudentSimulator/StudentSimulator';
+import Graph2D from './components/Graph2D/Graph2D';
 
 export enum EPages {
   graph2D = 'graph2D',
@@ -22,6 +23,7 @@ const App: React.FC = () => {
 
       {pageName === EPages.esse && <Esse />}
       {pageName === EPages.studentSimulator && <StudentSimulator />}
+      {pageName === EPages.graph2D && <Graph2D />}
     </div>
   );
 }
