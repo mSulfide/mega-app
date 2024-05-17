@@ -32,7 +32,7 @@ class VectorCalculator implements ICalculator<Vector> {
 
     pow(a: Vector, n: number): Vector {
         let ans: Vector = a;
-        for (let i = 1; i < n; i++){
+        for (let i = 1; i < n; i++) {
             ans = this.mult(ans, a);
         }
         return ans;

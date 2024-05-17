@@ -1,23 +1,29 @@
+import Calculator from "../calculators/Calculator";
+import AnyType from "./AnyType";
+import Member from "./Member";
+
 class Polynomial {
-    constructor(poly = []) {
+    poly: Member[];
+    constructor(poly: Member[] = []) {
         this.poly = poly;
         this.poly.sort((a, b) => b.power - a.power);
     }
 
-    getValue(x) {
-        const calc = new Calculator;
+    getValue(x: AnyType): AnyType {
+        const calc = new Calculator();
         return this.poly.reduce((S, elem) =>
             calc.add(
                 S,
                 calc.prod(
                     calc.pow(x, elem.power),
-                    elem.value)
+                    elem.value
+                )
             ),
-            calc.zero(null, x)
+            calc.zero(x)
         )
     }
 
-    toString() {
+    toString(): string {
         return this.poly.map(
             (el, i) => (el.value > 0) ?
                 `${(i === 0) ? '' : ' + '}${el.toString()}` :
@@ -25,3 +31,5 @@ class Polynomial {
         ).join('');
     }
 }
+
+export default Polynomial;

@@ -1,10 +1,13 @@
 import AnyType from "../types/AnyType";
 import Complex from "../types/Complex";
 import Matrix from "../types/Matrix";
+import Member from "../types/Member";
+import Polynomial from "../types/Polynomial";
 import Vector from "../types/Vector";
 import ComplexCalculator from "./ComplexCalculator";
 import ICalculator from "./ICalculator";
 import MatrixCalculator from "./MatrixCalculator";
+import PolynomialCalculator from "./PolynomialCalculator";
 import RealCalculator from "./RealCalculator";
 import VectorCalculator from "./VectorCalculator";
 
@@ -21,36 +24,38 @@ export enum EOperand {
 
 class Calculator implements ICalculator<AnyType> {
     getValue(str: string): AnyType {
-        //if (str.includes('*x^')) { return this.getPolynomial(str); }
+        if (str.includes('*x^')) { return this.getPolynomial(str); }
         if (str.includes('\n')) { return this.getMatrix(str) };
         if (str.includes('(')) { return this.getVector(str) };
         if (str.includes('i')) { return this.getComplex(str) };
         return parseFloat(str);
     }
 
-    /*getPolynomial(str) {
+    getPolynomial(str: string | Member[]): Polynomial {
         if (str instanceof Array) {
             return new Polynomial(str)
         }
         if (typeof str == 'string' && str) {
-            const members = [];
+            const members: Member[] = [];
             const arrStr = str.replace(/\s+/g, '').replace(/-/g, ' -').split(/[+ ]/g);
             for (let i = 0; i < arrStr.length; i++) {
                 members.push(this.getMember(arrStr[i]));
             }
             return new Polynomial(members);
         }
+        return new Polynomial();
     }
 
-    getMember(str) {
+    getMember(str: string): Member {
         if (typeof str === 'number') {
             return new Member(str);
         }
         if (typeof str === 'string' && str) {
             const arrStr = str.split('*x^');
-            return new Member(this.getValue(arrStr[0]), arrStr[1] - 0);
+            return new Member(parseFloat(arrStr[0]), parseInt(arrStr[1]));
         }
-    }*/
+        return new Member();
+    }
 
     getMatrix(str: string | AnyType[][]): Matrix {
         if (str instanceof Array) return new Matrix(str);
@@ -118,6 +123,9 @@ class Calculator implements ICalculator<AnyType> {
     }
 
     get(elem?: AnyType): ICalculator<AnyType> {
+        if (elem instanceof Polynomial) {
+            return new PolynomialCalculator();
+        }
         if (elem instanceof Matrix) {
             return new MatrixCalculator(this.get(elem.values[0][0]));
         }
