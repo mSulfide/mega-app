@@ -11,6 +11,7 @@ const Header: React.FC<THeader> = (props : THeader) => {
     return (<>
         <button onClick={() => setPageName(EPages.graph3D)}>3D</button>
         <button onClick={() => setPageName(EPages.graph2D)}>2D</button>
+        <button onClick={() => setPageName(EPages.calculator)}>Calc</button>
         <button onClick={() => setPageName(EPages.esse)}>Esse</button>
         <button onClick={() => setPageName(EPages.studentSimulator)}>Stud</button>
     </>);
