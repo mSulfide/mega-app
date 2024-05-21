@@ -1,6 +1,5 @@
 import Member from "../types/Member";
 import Polynomial from "../types/Polynomial";
-import Calculator from "./Calculator";
 import ICalculator from "./ICalculator";
 
 class PolynomialCalculator implements ICalculator<Polynomial> {
@@ -9,12 +8,13 @@ class PolynomialCalculator implements ICalculator<Polynomial> {
     }
 
     removeZeros(members: Member[]): Member[] {
-        for (let i = members.length - 1; i >= 0; i--) {
-            if (members[i].value === 0) {
-                return members.slice(0, i);
+        const answ: Member[] = [];
+        for (let i: number = 0; i < members.length; i++) {
+            if (members[i].value != 0) {
+                answ.push(members[i]);
             }
         }
-        return members;
+        return answ;
     }
 
     add(a: Polynomial, b: Polynomial): Polynomial {
