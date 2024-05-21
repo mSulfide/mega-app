@@ -1,9 +1,10 @@
-import Math3D, { ETranform } from "../Math3D";
+import Math3D, { ETransform } from "../Math3D";
+import Edge from "./Edge";
 import Point from "./Point";
 import Polygon from "./Polygon";
 
 export type TAnimation = {
-    method: ETranform;
+    method: ETransform;
     value: number;
     center: Point;
 }
@@ -15,7 +16,7 @@ class Surface {
     center: Point;
     animations: TAnimation[];
 
-    constructor(points = [], edges = [], polygons = [], center = new Point) {
+    constructor(points: Point[] = [], edges: Edge[] = [], polygons: Polygon[] = [], center: Point = new Point) {
         this.points = points;
         this.edges = edges;
         this.polygons = polygons;
@@ -27,7 +28,7 @@ class Surface {
         this.animations = [];
     }
 
-    addAnimation(method: ETranform, value: number, center: Point): void {
+    addAnimation(method: ETransform, value: number, center?: Point): void {
         this.animations.push({method, value, center: center || this.center});
     }
 

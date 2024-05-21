@@ -42,8 +42,8 @@ const Graph2D: React.FC = () => {
     }
 
     const wheel = (event: WheelEvent): void => {
-        const zoomStep = 0.4;
-        const delta = (event.deltaY > 0) ? zoomStep : -zoomStep;
+        const zoomStep: number = 0.4;
+        const delta: number = (event.deltaY > 0) ? zoomStep : -zoomStep;
         if (WIN.width + delta >= 0) {
             WIN.width += delta;
             WIN.height += delta;
@@ -56,8 +56,8 @@ const Graph2D: React.FC = () => {
     const printFunction = ({ f, color = "#4B4B4B", lineWidth = 2 }: TFunction): void => {
         if (graph) {
             const precision = 2000;
-            let x = WIN.left;
-            let dx = WIN.width / precision;
+            let x: number = WIN.left;
+            let dx: number = WIN.width / precision;
             while (x <= WIN.width + WIN.left) {
                 if (Math.abs(f(x) - f(x + dx)) >= WIN.height) {
                     x += dx;
@@ -71,7 +71,7 @@ const Graph2D: React.FC = () => {
 
     const printFunctionText = (f: TF): void => {
         if (graph) {
-            let text = f.toString();
+            let text: string = f.toString();
             text = text.replaceAll('x =>', '');
             graph.text(1.2, f(1), 'y =' + text);
         }
@@ -79,11 +79,11 @@ const Graph2D: React.FC = () => {
 
     const printZeroes = ({ f, color = "#f00", lineWidth = 2 }: TFunction): void => {
         if (graph) {
-            const precision = 100;
-            let x = WIN.left;
-            let dx = WIN.width / precision;
+            const precision: number = 100;
+            let x: number = WIN.left;
+            let dx: number = WIN.width / precision;
             while (x <= WIN.width + WIN.left) {
-                let zero = getZero(f, x, x + dx);
+                let zero: number | null = getZero(f, x, x + dx);
                 if (zero)
                     graph.point(zero, 0, color, lineWidth);
                 x += dx;

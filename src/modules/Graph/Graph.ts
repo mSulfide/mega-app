@@ -23,8 +23,8 @@ export type TGraph = {
         wheel: (event: WheelEvent) => void;
         mousemove: (event: MouseEvent) => void;
         mouseleave: () => void;
-        mouseup: () => void;
-        mousedown: () => void;
+        mouseup: (event: MouseEvent) => void;
+        mousedown: (event: MouseEvent) => void;
     }
 }
 

@@ -16,7 +16,7 @@ type TShadow = {
     dark?: number;
 }
 
-export enum ETranform {
+export enum ETransform {
     zoom = 'zoom',
     move = 'move',
     rotateOx = 'rotateOx',
@@ -70,7 +70,7 @@ class Math3D {
         return a;
     }
 
-    [ETranform.zoom](delta: number): TMatrix {
+    [ETransform.zoom](delta: number): TMatrix {
         const T = [
             [delta, 0, 0, 0],
             [0, delta, 0, 0],
@@ -80,7 +80,7 @@ class Math3D {
         return T;
     }
 
-    [ETranform.move](dx: number = 0, dy: number = 0, dz: number = 0): TMatrix {
+    [ETransform.move](dx: number = 0, dy: number = 0, dz: number = 0): TMatrix {
         const T = [
             [1, 0, 0, 0],
             [0, 1, 0, 0],
@@ -90,7 +90,7 @@ class Math3D {
         return T;
     }
 
-    [ETranform.rotateOx](angle: number): TMatrix {
+    [ETransform.rotateOx](angle: number): TMatrix {
         const T = [
             [1, 0, 0, 0],
             [0, Math.cos(angle), Math.sin(angle), 0],
@@ -100,7 +100,7 @@ class Math3D {
         return T;
     }
 
-    [ETranform.rotateOy](angle: number): TMatrix {
+    [ETransform.rotateOy](angle: number): TMatrix {
         const T = [
             [Math.cos(angle), 0, -Math.sin(angle), 0],
             [0, 1, 0, 0],
@@ -110,7 +110,7 @@ class Math3D {
         return T;
     }
 
-    [ETranform.rotateOz](angle: number): TMatrix {
+    [ETransform.rotateOz](angle: number): TMatrix {
         const T = [
             [Math.cos(angle), Math.sin(angle), 0, 0],
             [-Math.sin(angle), Math.cos(angle), 0, 0],
