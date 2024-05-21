@@ -4,12 +4,18 @@ import Polygon from "../entities/Polygon";
 import Surface from "../entities/Surface";
 
 class Torus extends Surface {
-    constructor(radius = 2, offset = 5, color = '#ffff00', center = new Point) {
+    constructor(
+        radius: number = 2, 
+        offset: number = 5, 
+        color: string = '#ffff00', 
+        center: Point = new Point(),
+        verticalEdgeCount: number = 20,
+        horizontalEdgeCount: number = 15
+
+    ) {
         const vertices = [];
         const edges = [];
         const polygons = [];
-        const verticalEdgeCount = 20;
-        const horizontalEdgeCount = 15;
 
         for (let i = 0; i < verticalEdgeCount; i++) {
             const alpha = 2 * Math.PI * i / verticalEdgeCount;

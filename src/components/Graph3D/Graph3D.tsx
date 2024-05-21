@@ -7,6 +7,19 @@ import Sphere from "../../modules/Math3D/surfaces/Sphere";
 import Light from "../../modules/Math3D/entities/Light";
 import Edge from "../../modules/Math3D/entities/Edge";
 import Polygon, { EDistance } from "../../modules/Math3D/entities/Polygon";
+import Checkbox3D from "./Checkbox3D/Checkbox3D";
+import Torus from "../../modules/Math3D/surfaces/Torus";
+import Cube from "../../modules/Math3D/surfaces/Cube";
+
+export enum ECustom {
+    canMove = 'canMove',
+    mouse0 = 'mouse0',
+    mouse1 = 'mouse1',
+    mouse2 = 'mouse2',
+    drawPoints = 'drawPoints',
+    drawEdges = 'drawEdges',
+    drawPolygons = 'drawPolygons'
+}
 
 const Graph3D: React.FC = () => {
     let graph: Graph | null = null;
@@ -20,13 +33,16 @@ const Graph3D: React.FC = () => {
     }
     const math3D: Math3D = new Math3D({ WIN });
 
-    let canMove: boolean = false;
-    let mouse0: boolean = false;
-    let mouse1: boolean = false;
-    let mouse2: boolean = false;
-    let drawPoints: boolean = false;
-    let drawEdges: boolean = false;
-    let drawPolygons: boolean = true;
+    const custom = {
+        [ECustom.canMove]: false,
+        [ECustom.mouse0]: false,
+        [ECustom.mouse1]: false,
+        [ECustom.mouse2]: false,
+        [ECustom.drawPoints]: false,
+        [ECustom.drawEdges]: false,
+        [ECustom.drawPolygons]: true
+    }
+
 
     const SolarSystem = (): Surface[] => {
         const Sun = new Sphere(3.5, '#FFCC00');
@@ -41,40 +57,40 @@ const Graph3D: React.FC = () => {
         return [Sun, Earth, Moon];
     }
 
-    let scene: Surface[] = SolarSystem();
+    let scene: Surface[] = [new Sphere(5)];
     let dx: number = 0;
     let dy: number = 0;
 
     const mouseup = (event: MouseEvent): void => {
         switch (event.button) {
             case 0:
-                mouse0 = false;
+                custom.mouse0 = false;
                 break;
             case 1:
-                mouse1 = false;
+                custom.mouse1 = false;
                 break;
             case 2:
-                mouse2 = false;
+                custom.mouse2 = false;
                 break;
         }
     }
 
     const mouseleave = (): void => {
-        mouse0 = false;
-        mouse1 = false;
-        mouse2 = false;
+        custom.mouse0 = false;
+        custom.mouse1 = false;
+        custom.mouse2 = false;
     }
 
     const mousedown = (event: MouseEvent): void => {
         switch (event.button) {
             case 0:
-                mouse0 = true;
+                custom.mouse0 = true;
                 break;
             case 1:
-                mouse1 = true;
+                custom.mouse1 = true;
                 break;
             case 2:
-                mouse2 = true;
+                custom.mouse2 = true;
                 break;
         }
     }
@@ -90,11 +106,11 @@ const Graph3D: React.FC = () => {
     }
 
     const mousemove = (event: MouseEvent): void => {
-        if (mouse0 || mouse2) {
+        if (custom.mouse0 || custom.mouse2) {
             const gradus = Math.PI / 180 / 4;
             const matrix = math3D.getTransform(
                 math3D.rotateOx((dy - event.offsetY) * gradus),
-                mouse2 ?
+                custom.mouse2 ?
                     math3D.rotateOz((dx - event.offsetX) * gradus) :
                     math3D.rotateOy((dx - event.offsetX) * gradus)
             );
@@ -103,7 +119,7 @@ const Graph3D: React.FC = () => {
                 math3D.transform(matrix, surface.center);
             });
         }
-        if (mouse1) {
+        if (custom.mouse1) {
             const offset = 0.05;
             const matrix = math3D.move(
                 (dx - event.offsetX) * -offset,
@@ -119,20 +135,6 @@ const Graph3D: React.FC = () => {
         dy = event.offsetY;
     }
 
-    useEffect(() => {
-        graph = new Graph({
-            id: 'graph3DCanvas',
-            width: 600,
-            height: 600,
-            WIN,
-            callbacks: { wheel, mousemove, mouseleave, mouseup, mousedown }
-        });
-
-        return () => {
-            graph = null;
-        }
-    }, [graph]);
-
     const ligth = new Light(-40, 15, 0, 1500);
     setInterval(() => {
         scene.forEach(surface => surface.doAnimation(math3D));
@@ -146,7 +148,7 @@ const Graph3D: React.FC = () => {
         if (graph) {
             graph.clear();
 
-            if (drawPoints) {
+            if (custom.drawPoints) {
                 scene.forEach((surface: Surface) => {
                     surface.points.forEach((point: Point) => {
                         if (graph)
@@ -155,7 +157,7 @@ const Graph3D: React.FC = () => {
                 });
             }
 
-            if (drawEdges) {
+            if (custom.drawEdges) {
                 scene.forEach((surface: Surface) => {
                     surface.edges.forEach((edge: Edge) => {
                         const point1 = surface.points[edge.p1];
@@ -166,12 +168,12 @@ const Graph3D: React.FC = () => {
                 });
             }
 
-            if (drawPolygons) {
+            if (custom.drawPolygons) {
                 const polygons: Polygon[] = [];
-                scene.forEach((surface, index) => {
+                scene.forEach((surface: Surface, index: number) => {
                     math3D.calcDistance(surface, WIN.camera, EDistance.distance);
                     math3D.calcDistance(surface, ligth, EDistance.lumen);
-                    surface.polygons.forEach(polygon => {
+                    surface.polygons.forEach((polygon: Polygon) => {
                         polygon.index = index;
                         polygons.push(polygon);
                     });
@@ -214,46 +216,70 @@ const Graph3D: React.FC = () => {
 
     animLoop();
 
+    const changeValue = (flag: ECustom, value: boolean): void => {
+        custom[flag] = value;
+    }
+
+    const changeScene = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        switch (event.target.value) {
+            case "Sphere": 
+                scene = [new Sphere()];
+                break;
+            case "Cube":
+                scene = [new Cube()];
+                break;
+            case "Torus":
+                scene = [new Torus()];
+                break;
+        }
+    } 
+
+    useEffect(() => {
+        graph = new Graph({
+            id: 'graph3DCanvas',
+            width: 600,
+            height: 600,
+            WIN,
+            callbacks: { wheel, mousemove, mouseleave, mouseup, mousedown }
+        });
+
+        return () => {
+            graph = null;
+        }
+    }, [graph]);
+
+
     return (<div>
         <canvas id='graph3DCanvas'></canvas>
         <div>
-            <input type="checkbox" data-custom="drawPoints">Точки</input>
-            <input type="checkbox" data-custom="drawEdges" id="drawEdges">Рёбра</input>
-            <input type="checkbox" data-custom="drawPolygons" id="drawPolygons" checked>Полигоны</input>
+            <Checkbox3D
+                text="точки"
+                id="points"
+                custom={ECustom.drawPoints}
+                customValue={custom[ECustom.drawPoints]}
+                changeValue={changeValue}
+            />
+            <Checkbox3D 
+                text="рёбра"
+                id="edges"
+                custom={ECustom.drawEdges}
+                customValue={custom[ECustom.drawEdges]}
+                changeValue={changeValue}
+            />
+            <Checkbox3D 
+                text="полигоны"
+                id="polygons"
+                custom={ECustom.drawPolygons}
+                customValue={custom[ECustom.drawPolygons]}
+                changeValue={changeValue}
+            />
         </div>
-        <select id="selectedSurface">
-            <option value="cube">Куб</option>
-            <option value="sphere">Сфера</option>
-            <option value="torus">Тор</option>
+        <select onChange={changeScene} id="selectedSurface">
+            <option value="Cube">Куб</option>
+            <option value="Sphere">Сфера</option>
+            <option value="Torus">Тор</option>
         </select>
     </div>);
 }
 
-
-
-/*addEventListeners() {
-    document.querySelectorAll('.customScene').forEach(input => {
-        input.addEventListener('click', event => {
-            this[event.target.dataset.custom] = event.target.checked;
-        });
-    });
-    document.getElementById("drawPoints").addEventListener(
-        'click',
-        event => this.drawPoints = event.target.checked
-    );
-    document.getElementById("drawEdges").addEventListener(
-        'click',
-        event => this.drawEdges = event.target.checked
-    );
-    document.getElementById("drawPolygons").addEventListener(
-        'click',
-        event => this.drawPolygons = event.target.checked
-    );
-    document.getElementById("selectedSurface").addEventListener(
-        'change',
-        event => {
-            this.scene = [this.surfaces[event.target.value]()];
-        },
-        false
-    );
-}*/
+export default Graph3D;

@@ -5,6 +5,7 @@ import Esse from './components/Esse/Esse';
 import StudentSimulator from './components/StudentSimulator/StudentSimulator';
 import Graph2D from './components/Graph2D/Graph2D';
 import Calc from './components/Calc/Calc';
+import Graph3D from './components/Graph3D/Graph3D';
 
 export enum EPages {
   graph2D = 'graph2D',
@@ -21,6 +22,7 @@ const App: React.FC = () => {
     <div className="app">
       <Header setPageName={setPageName} />
 
+      {pageName === EPages.graph3D && <Graph3D />}
       {pageName === EPages.esse && <Esse />}
       {pageName === EPages.studentSimulator && <StudentSimulator />}
       {pageName === EPages.graph2D && <Graph2D />}

@@ -4,12 +4,16 @@ import Polygon from "../entities/Polygon";
 import Surface from "../entities/Surface";
 
 class Sphere extends Surface {
-    constructor(radius: number = 5, color: string = '#ffff00', center: Point = new Point) {
+    constructor(
+        radius: number = 5, 
+        color: string = '#ffff00', 
+        center: Point = new Point, 
+        verticalEdgeCount: number = 20, 
+        horizontalEdgeCount: number = 9
+    ) {
         const vertices = [];
         const edges = [];
         const polygons = [];
-        const verticalEdgeCount = 20;
-        const horizontalEdgeCount = 9;
 
         vertices.push(new Point(center.x, radius + center.y, center.z));
         for (let i = 0; i < verticalEdgeCount; i++) {
