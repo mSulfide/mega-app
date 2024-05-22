@@ -7,9 +7,10 @@ import Sphere from "../../modules/Math3D/surfaces/Sphere";
 import Light from "../../modules/Math3D/entities/Light";
 import Edge from "../../modules/Math3D/entities/Edge";
 import Polygon, { EDistance } from "../../modules/Math3D/entities/Polygon";
-import Checkbox3D from "./Checkbox3D/Checkbox3D";
 import Torus from "../../modules/Math3D/surfaces/Torus";
 import Cube from "../../modules/Math3D/surfaces/Cube";
+import Checkbox3D from "./Checkbox3D/Checkbox3D";
+import Select3D from "./Select3D/Select3D";
 
 export enum ECustom {
     canMove = 'canMove',
@@ -19,6 +20,12 @@ export enum ECustom {
     drawPoints = 'drawPoints',
     drawEdges = 'drawEdges',
     drawPolygons = 'drawPolygons'
+}
+
+export enum EScene {
+    sphere = 'sphere',
+    cube = 'cube',
+    torus = 'torus'
 }
 
 const Graph3D: React.FC = () => {
@@ -32,6 +39,10 @@ const Graph3D: React.FC = () => {
         camera: new Point(0, 0, -50),
     }
     const math3D: Math3D = new Math3D({ WIN });
+    const ligth = new Light(-40, 15, 0, 1500);
+    let scene: Surface[] = [new Sphere(5)];
+    let dx: number = 0;
+    let dy: number = 0;
 
     const custom = {
         [ECustom.canMove]: false,
@@ -43,6 +54,11 @@ const Graph3D: React.FC = () => {
         [ECustom.drawPolygons]: true
     }
 
+    const scenes = {
+        [EScene.sphere]: [new Sphere()],
+        [EScene.cube]: [new Cube()],
+        [EScene.torus]: [new Torus()]
+    }
 
     const SolarSystem = (): Surface[] => {
         const Sun = new Sphere(3.5, '#FFCC00');
@@ -56,10 +72,6 @@ const Graph3D: React.FC = () => {
 
         return [Sun, Earth, Moon];
     }
-
-    let scene: Surface[] = [new Sphere(5)];
-    let dx: number = 0;
-    let dy: number = 0;
 
     const mouseup = (event: MouseEvent): void => {
         switch (event.button) {
@@ -135,14 +147,6 @@ const Graph3D: React.FC = () => {
         dy = event.offsetY;
     }
 
-    const ligth = new Light(-40, 15, 0, 1500);
-    setInterval(() => {
-        scene.forEach(surface => surface.doAnimation(math3D));
-    }, 50);
-
-    let currentFPS = 0;
-    let FPS = 0;
-    let timestamp = Date.now();
 
     const renderScene = (fps: number): void => {
         if (graph) {
@@ -200,39 +204,13 @@ const Graph3D: React.FC = () => {
         }
     }
 
-    const animLoop = () => {
-        FPS++;
-        const currentTimestamp = Date.now();
-        if (currentTimestamp - timestamp >= 1000) {
-            timestamp = currentTimestamp;
-            currentFPS = FPS;
-            FPS = 0;
-        }
-
-        renderScene(currentFPS);
-
-        window.requestAnimationFrame(animLoop);
-    }
-
-    animLoop();
-
     const changeValue = (flag: ECustom, value: boolean): void => {
         custom[flag] = value;
     }
 
-    const changeScene = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        switch (event.target.value) {
-            case "Sphere": 
-                scene = [new Sphere()];
-                break;
-            case "Cube":
-                scene = [new Cube()];
-                break;
-            case "Torus":
-                scene = [new Torus()];
-                break;
-        }
-    } 
+    const changeScene = (flag: EScene) => {
+        scene = scenes[flag];
+    }
 
     useEffect(() => {
         graph = new Graph({
@@ -243,11 +221,37 @@ const Graph3D: React.FC = () => {
             callbacks: { wheel, mousemove, mouseleave, mouseup, mousedown }
         });
 
+        const interval = setInterval(() => {
+            scene.forEach(surface => surface.doAnimation(math3D));
+        }, 50);
+
+        let currentFPS = 0;
+        let FPS = 0;
+        let timestamp = Date.now();
+        let idLoop: number;
+
+        const animLoop = () => {
+            FPS++;
+            const currentTimestamp = Date.now();
+            if (currentTimestamp - timestamp >= 1000) {
+                timestamp = currentTimestamp;
+                currentFPS = FPS;
+                FPS = 0;
+            }
+
+            renderScene(currentFPS);
+
+            idLoop = window.requestAnimationFrame(animLoop);
+        }
+
+        animLoop();
+
         return () => {
             graph = null;
+            window.cancelAnimationFrame(idLoop);
+            clearInterval(interval);
         }
     }, [graph]);
-
 
     return (<div>
         <canvas id='graph3DCanvas'></canvas>
@@ -259,14 +263,14 @@ const Graph3D: React.FC = () => {
                 customValue={custom[ECustom.drawPoints]}
                 changeValue={changeValue}
             />
-            <Checkbox3D 
+            <Checkbox3D
                 text="рёбра"
                 id="edges"
                 custom={ECustom.drawEdges}
                 customValue={custom[ECustom.drawEdges]}
                 changeValue={changeValue}
             />
-            <Checkbox3D 
+            <Checkbox3D
                 text="полигоны"
                 id="polygons"
                 custom={ECustom.drawPolygons}
@@ -274,11 +278,15 @@ const Graph3D: React.FC = () => {
                 changeValue={changeValue}
             />
         </div>
-        <select onChange={changeScene} id="selectedSurface">
-            <option value="Cube">Куб</option>
-            <option value="Sphere">Сфера</option>
-            <option value="Torus">Тор</option>
-        </select>
+        <Select3D
+            scenes={[
+                { scene: EScene.cube, text: "Куб" },
+                { scene: EScene.sphere, text: "Сфера" },
+                { scene: EScene.torus, text: "Тор" }
+            ]}
+            id="selectedSurface"
+            changeScene={changeScene}
+        />
     </div>);
 }
 
