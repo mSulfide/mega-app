@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Graph, { TWIN3D } from "../../modules/Graph/Graph";
-import { Math3D, ETransform, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
+import { Math3D, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
 import Checkbox3D from "./Checkbox3D/Checkbox3D";
 import Select3D from "./Select3D/Select3D";
 
@@ -20,19 +20,6 @@ export enum EScene {
     torus = 'torus'
 }
 
-const SolarSystem = (): Surface[] => {
-    const Sun = new Sphere(3.5, '#FFCC00');
-    Sun.addAnimation(ETransform.rotateOz, -0.01);
-
-    const Earth = new Sphere(2, '#22FF33', new Point(12, 0, 0));
-    Earth.addAnimation(ETransform.rotateOz, 0.06, new Point);
-
-    const Moon = new Sphere(1, '#454545', new Point(8, 0, 0));
-    Moon.addAnimation(ETransform.rotateOz, 0.6, Earth.center);
-
-    return [Sun, Earth, Moon];
-}
-
 const Graph3D: React.FC = () => {
     let graph: Graph | null = null;
     const WIN: TWIN3D = {
@@ -46,7 +33,7 @@ const Graph3D: React.FC = () => {
     const math3D: Math3D = new Math3D({ WIN });
     const ligth = new Light(-40, 15, 0, 1500);
     const canvasId = 'graph3DCanvas';
-    let scene: Surface[] = SolarSystem();;
+    let scene: Surface[] = [];
     let dx: number = 0;
     let dy: number = 0;
 
@@ -145,26 +132,6 @@ const Graph3D: React.FC = () => {
         if (graph) {
             graph.clear();
 
-            if (custom.drawPoints) {
-                scene.forEach((surface: Surface) => {
-                    surface.points.forEach((point: Point) => {
-                        if (graph)
-                            graph.point(math3D.xs(point), math3D.ys(point));
-                    });
-                });
-            }
-
-            if (custom.drawEdges) {
-                scene.forEach((surface: Surface) => {
-                    surface.edges.forEach((edge: Edge) => {
-                        const point1 = surface.points[edge.p1];
-                        const point2 = surface.points[edge.p2];
-                        if (graph)
-                            graph.line(math3D.xs(point1), math3D.ys(point1), math3D.xs(point2), math3D.ys(point2));
-                    });
-                });
-            }
-
             if (custom.drawPolygons) {
                 const polygons: Polygon[] = [];
                 scene.forEach((surface: Surface, index: number) => {
@@ -190,6 +157,26 @@ const Graph3D: React.FC = () => {
                     b = Math.round(b * lumen);
                     if (graph)
                         graph.polygon(points, polygon.rgbToHex(r, g, b));
+                });
+            }
+
+            if (custom.drawEdges) {
+                scene.forEach((surface: Surface) => {
+                    surface.edges.forEach((edge: Edge) => {
+                        const point1 = surface.points[edge.p1];
+                        const point2 = surface.points[edge.p2];
+                        if (graph)
+                            graph.line(math3D.xs(point1), math3D.ys(point1), math3D.xs(point2), math3D.ys(point2));
+                    });
+                });
+            }
+
+            if (custom.drawPoints) {
+                scene.forEach((surface: Surface) => {
+                    surface.points.forEach((point: Point) => {
+                        if (graph)
+                            graph.point(math3D.xs(point), math3D.ys(point));
+                    });
                 });
             }
 
