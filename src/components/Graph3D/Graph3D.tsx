@@ -1,14 +1,6 @@
 import React, { useEffect } from "react";
 import Graph, { TWIN3D } from "../../modules/Graph/Graph";
-import Point from "../../modules/Math3D/entities/Point";
-import Math3D, { ETransform } from "../../modules/Math3D/Math3D";
-import Surface from "../../modules/Math3D/entities/Surface";
-import Sphere from "../../modules/Math3D/surfaces/Sphere";
-import Light from "../../modules/Math3D/entities/Light";
-import Edge from "../../modules/Math3D/entities/Edge";
-import Polygon, { EDistance } from "../../modules/Math3D/entities/Polygon";
-import Torus from "../../modules/Math3D/surfaces/Torus";
-import Cube from "../../modules/Math3D/surfaces/Cube";
+import { Math3D, ETransform, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
 import Checkbox3D from "./Checkbox3D/Checkbox3D";
 import Select3D from "./Select3D/Select3D";
 
@@ -28,6 +20,19 @@ export enum EScene {
     torus = 'torus'
 }
 
+const SolarSystem = (): Surface[] => {
+    const Sun = new Sphere(3.5, '#FFCC00');
+    Sun.addAnimation(ETransform.rotateOz, -0.01);
+
+    const Earth = new Sphere(2, '#22FF33', new Point(12, 0, 0));
+    Earth.addAnimation(ETransform.rotateOz, 0.06, new Point);
+
+    const Moon = new Sphere(1, '#454545', new Point(8, 0, 0));
+    Moon.addAnimation(ETransform.rotateOz, 0.6, Earth.center);
+
+    return [Sun, Earth, Moon];
+}
+
 const Graph3D: React.FC = () => {
     let graph: Graph | null = null;
     const WIN: TWIN3D = {
@@ -40,7 +45,8 @@ const Graph3D: React.FC = () => {
     }
     const math3D: Math3D = new Math3D({ WIN });
     const ligth = new Light(-40, 15, 0, 1500);
-    let scene: Surface[] = [new Sphere(5)];
+    const canvasId = 'graph3DCanvas';
+    let scene: Surface[] = SolarSystem();;
     let dx: number = 0;
     let dy: number = 0;
 
@@ -58,19 +64,6 @@ const Graph3D: React.FC = () => {
         [EScene.sphere]: [new Sphere()],
         [EScene.cube]: [new Cube()],
         [EScene.torus]: [new Torus()]
-    }
-
-    const SolarSystem = (): Surface[] => {
-        const Sun = new Sphere(3.5, '#FFCC00');
-        Sun.addAnimation(ETransform.rotateOz, -0.01);
-
-        const Earth = new Sphere(2, '#22FF33', new Point(12, 0, 0));
-        Earth.addAnimation(ETransform.rotateOz, 0.06, new Point);
-
-        const Moon = new Sphere(1, '#454545', new Point(8, 0, 0));
-        Moon.addAnimation(ETransform.rotateOz, 0.6, Earth.center);
-
-        return [Sun, Earth, Moon];
     }
 
     const mouseup = (event: MouseEvent): void => {
@@ -109,7 +102,7 @@ const Graph3D: React.FC = () => {
 
     const wheel = (event: WheelEvent): void => {
         event.preventDefault();
-        const delta = (event.deltaY > 0) ? 1.2 : 0.8;
+        const delta = (event.deltaY < 0) ? 1.2 : 0.8;
         const matrix = math3D.zoom(delta);
         scene.forEach(surface => {
             surface.points.forEach(point => math3D.transform(matrix, point));
@@ -214,7 +207,7 @@ const Graph3D: React.FC = () => {
 
     useEffect(() => {
         graph = new Graph({
-            id: 'graph3DCanvas',
+            id: canvasId,
             width: 600,
             height: 600,
             WIN,
@@ -254,7 +247,7 @@ const Graph3D: React.FC = () => {
     }, [graph]);
 
     return (<div>
-        <canvas id='graph3DCanvas'></canvas>
+        <canvas id={canvasId}></canvas>
         <div>
             <Checkbox3D
                 text="точки"
