@@ -1,10 +1,7 @@
-import Edge from "../entities/Edge";
-import Point from "../entities/Point";
-import Polygon from "../entities/Polygon";
-import Surface from "../entities/Surface";
+import { Point, Edge, Polygon, Surface } from "../entities"
 
 class Cube extends Surface {
-    constructor(edge: number = 5, center: Point = new Point) {
+    constructor(edge: number = 5, center: Point = new Point()) {
         super([
             new Point(edge + center.x, edge + center.y, edge + center.z),
             new Point(edge + center.x, -edge + center.y, edge + center.z),

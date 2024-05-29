@@ -1,21 +1,18 @@
-import Edge from "../entities/Edge";
-import Point from "../entities/Point";
-import Polygon from "../entities/Polygon";
-import Surface from "../entities/Surface";
+import { Point, Edge, Polygon, Surface } from "../entities"
 
 class Torus extends Surface {
     constructor(
         radius: number = 2, 
         offset: number = 5, 
-        color: string = '#ffff00', 
+        color: string = '#ff00ff', 
         center: Point = new Point(),
         verticalEdgeCount: number = 20,
         horizontalEdgeCount: number = 15
 
     ) {
-        const vertices = [];
-        const edges = [];
-        const polygons = [];
+        const vertices: Point[] = [];
+        const edges: Edge[] = [];
+        const polygons: Polygon[] = [];
 
         for (let i = 0; i < verticalEdgeCount; i++) {
             const alpha = 2 * Math.PI * i / verticalEdgeCount;

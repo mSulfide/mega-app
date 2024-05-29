@@ -1,19 +1,16 @@
-import Edge from "../entities/Edge";
-import Point from "../entities/Point";
-import Polygon from "../entities/Polygon";
-import Surface from "../entities/Surface";
+import { Point, Edge, Polygon, Surface } from "../entities"
 
 class Sphere extends Surface {
     constructor(
         radius: number = 5, 
         color: string = '#ffff00', 
-        center: Point = new Point, 
+        center: Point = new Point(), 
         verticalEdgeCount: number = 20, 
         horizontalEdgeCount: number = 9
     ) {
-        const vertices = [];
-        const edges = [];
-        const polygons = [];
+        const vertices: Point[] = [];
+        const edges: Edge[] = [];
+        const polygons: Polygon[] = [];
 
         vertices.push(new Point(center.x, radius + center.y, center.z));
         for (let i = 0; i < verticalEdgeCount; i++) {

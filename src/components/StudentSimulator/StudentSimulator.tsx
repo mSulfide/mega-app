@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import RPGGame, { ERoom } from "../../modules/StudentSimulator/RPGGame";
 import ActionsPanel from "./ActionsPanel/ActionsPanel";
 import HealthPanel from "./HealthPanel/HealthPanel";

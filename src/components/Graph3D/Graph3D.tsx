@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Graph, { TWIN3D } from "../../modules/Graph/Graph";
-import { Math3D, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
+import { Math3D, Cone, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
 import Checkbox3D from "./Checkbox3D/Checkbox3D";
 import Select3D from "./Select3D/Select3D";
 
@@ -16,6 +16,7 @@ export enum ECustom {
 
 export enum EScene {
     sphere = 'sphere',
+    cone = 'cone',
     cube = 'cube',
     torus = 'torus'
 }
@@ -49,6 +50,7 @@ const Graph3D: React.FC = () => {
 
     const scenes = {
         [EScene.sphere]: [new Sphere()],
+        [EScene.cone]: [new Cone()],
         [EScene.cube]: [new Cube()],
         [EScene.torus]: [new Torus()]
     }
@@ -233,6 +235,8 @@ const Graph3D: React.FC = () => {
         }
     }, [graph]);
 
+    changeScene(EScene.cone);
+
     return (<div>
         <canvas id={canvasId}></canvas>
         <div>
@@ -260,8 +264,9 @@ const Graph3D: React.FC = () => {
         </div>
         <Select3D
             scenes={[
-                { scene: EScene.cube, text: "Куб" },
+                { scene: EScene.cone, text: "Конус" },
                 { scene: EScene.sphere, text: "Сфера" },
+                { scene: EScene.cube, text: "Куб" },
                 { scene: EScene.torus, text: "Тор" }
             ]}
             id="selectedSurface"
