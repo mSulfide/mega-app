@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Graph, { TWIN3D } from "../../modules/Graph/Graph";
-import { Math3D, Pyramid, Cone, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
+import { Math3D, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
 import Checkbox3D from "./Checkbox3D/Checkbox3D";
 import Select3D from "./Select3D/Select3D";
 
@@ -15,6 +15,7 @@ export enum ECustom {
 }
 
 export enum EScene {
+    ellipsoid = 'ellipsoid',
     pyramid = 'pyramid',
     sphere = 'sphere',
     cone = 'cone',
@@ -50,6 +51,7 @@ const Graph3D: React.FC = () => {
     }
 
     const scenes = {
+        [EScene.ellipsoid]: [new Ellipsoid()],
         [EScene.pyramid]: [new Pyramid()],
         [EScene.sphere]: [new Sphere()],
         [EScene.cone]: [new Cone()],
@@ -237,7 +239,7 @@ const Graph3D: React.FC = () => {
         }
     }, [graph]);
 
-    changeScene(EScene.pyramid);
+    changeScene(EScene.ellipsoid);
 
     return (<div>
         <canvas id={canvasId}></canvas>
@@ -266,6 +268,7 @@ const Graph3D: React.FC = () => {
         </div>
         <Select3D
             scenes={[
+                { scene: EScene.ellipsoid, text: "Элипсоид" },
                 { scene: EScene.pyramid, text: "Пирамида" },
                 { scene: EScene.cone, text: "Конус" },
                 { scene: EScene.sphere, text: "Сфера" },
