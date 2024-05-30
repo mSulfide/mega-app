@@ -15,12 +15,12 @@ class Pyramid extends Surface {
         for (let i = 0; i < edgeCount; i++) {
             const alpha = (1 - (edgeCount - 2) / edgeCount) * Math.PI * i;
             vertices.push(new Point(
-                Math.sin(alpha) * radius,
-                -heigth / 3,
-                Math.cos(alpha) * radius
+                Math.sin(alpha) * radius + center.x,
+                -heigth / 3 + center.y,
+                Math.cos(alpha) * radius + center.z
             ));
         }
-        vertices.push(new Point(0, heigth / 3 * 2, 0));
+        vertices.push(new Point(center.x, heigth / 3 * 2 + center.y, center.z));
 
         for (let i = 0; i < edgeCount; i++) {
             edges.push(new Edge(i, (i + 1) % edgeCount));

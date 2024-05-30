@@ -13,19 +13,19 @@ class Cone extends Surface {
         const edges: Edge[] = [];
         const polygons: Polygon[] = [];
 
-        vertices.push(new Point(0, -heigth / 3, 0));
+        vertices.push(new Point(center.x, -heigth / 3 + center.y, center.z));
         for (let j = 0; j < horizontalEdgeCount; j++) {
             const h = j / horizontalEdgeCount;
             for (let i = 0; i < verticalEdgeCount; i++) {
                 const alpha = 2 * Math.PI * i / verticalEdgeCount;
                 vertices.push(new Point(
-                    Math.sin(alpha) * radius * (1 - h),
-                    h * heigth - heigth / 3,
-                    Math.cos(alpha) * radius * (1 - h)
+                    Math.sin(alpha) * radius * (1 - h) + center.x,
+                    h * heigth - heigth / 3 + center.y,
+                    Math.cos(alpha) * radius * (1 - h) + center.z
                 ));
             }
         }
-        vertices.push(new Point(0, 2 * heigth / 3, 0));
+        vertices.push(new Point(center.x, 2 * heigth / 3 + center.y, center.z));
 
         for (let i = 0; i < verticalEdgeCount; i++) {
             edges.push(new Edge(0, i + 1));
