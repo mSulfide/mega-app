@@ -8,7 +8,7 @@ class Elipsoid extends Surface {
         color: string = '#00ffff', 
         center: Point = new Point(), 
         verticalEdgeCount: number = 20, 
-        horizontalEdgeCount: number = 9
+        horizontalEdgeCount: number = 15
     ) {
         const vertices: Point[] = [];
         const edges: Edge[] = [];

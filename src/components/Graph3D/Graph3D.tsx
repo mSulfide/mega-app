@@ -17,9 +17,9 @@ export enum ECustom {
 export enum EScene {
     ellipsoid = 'ellipsoid',
     pyramid = 'pyramid',
-    sphere = 'sphere',
     cone = 'cone',
     cube = 'cube',
+    sphere = 'sphere',
     torus = 'torus'
 }
 
@@ -45,17 +45,17 @@ const Graph3D: React.FC = () => {
         [ECustom.mouse0]: false,
         [ECustom.mouse1]: false,
         [ECustom.mouse2]: false,
-        [ECustom.drawPoints]: true,
-        [ECustom.drawEdges]: true,
+        [ECustom.drawPoints]: false,
+        [ECustom.drawEdges]: false,
         [ECustom.drawPolygons]: true
     }
 
     const scenes = {
         [EScene.ellipsoid]: [new Ellipsoid()],
         [EScene.pyramid]: [new Pyramid()],
-        [EScene.sphere]: [new Sphere()],
         [EScene.cone]: [new Cone()],
         [EScene.cube]: [new Cube()],
+        [EScene.sphere]: [new Sphere()],
         [EScene.torus]: [new Torus()]
     }
 
@@ -271,8 +271,8 @@ const Graph3D: React.FC = () => {
                 { scene: EScene.ellipsoid, text: "Элипсоид" },
                 { scene: EScene.pyramid, text: "Пирамида" },
                 { scene: EScene.cone, text: "Конус" },
-                { scene: EScene.sphere, text: "Сфера" },
                 { scene: EScene.cube, text: "Куб" },
+                { scene: EScene.sphere, text: "Сфера" },
                 { scene: EScene.torus, text: "Тор" }
             ]}
             id="selectedSurface"
