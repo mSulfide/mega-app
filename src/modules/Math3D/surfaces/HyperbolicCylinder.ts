@@ -4,8 +4,6 @@ class HyperbolicCylinder extends Surface {
     constructor(
         a: number = 1,
         b: number = 1,
-        x1: number = -5,
-        x2: number = 5,
         z1: number = -5,
         z2: number = 5,
         height: number = 5,
