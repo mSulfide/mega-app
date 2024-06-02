@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Graph, { TWIN3D } from "../../modules/Graph/Graph";
-import { Math3D, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
+import { Math3D, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
 import Checkbox3D from "./Checkbox3D/Checkbox3D";
 import Select3D from "./Select3D/Select3D";
 
@@ -15,6 +15,7 @@ export enum ECustom {
 }
 
 export enum EScene {
+    ellipticalCylinder = 'ellipticalCylinder',
     parabolicCylinder = 'parabolicCylinder',
     ellipsoid = 'ellipsoid',
     pyramid = 'pyramid',
@@ -52,6 +53,7 @@ const Graph3D: React.FC = () => {
     }
 
     const scenes = {
+        [EScene.ellipticalCylinder]: [new EllipticalCylinder()],
         [EScene.parabolicCylinder]: [new ParabolicCylinder()],
         [EScene.ellipsoid]: [new Ellipsoid()],
         [EScene.pyramid]: [new Pyramid()],
@@ -241,7 +243,7 @@ const Graph3D: React.FC = () => {
         }
     }, [graph]);
 
-    changeScene(EScene.parabolicCylinder);
+    changeScene(EScene.ellipticalCylinder);
 
     return (<div>
         <canvas id={canvasId}></canvas>
@@ -270,6 +272,7 @@ const Graph3D: React.FC = () => {
         </div>
         <Select3D
             scenes={[
+                { scene: EScene.ellipticalCylinder, text: "Эллиптический цилиндр" },
                 { scene: EScene.parabolicCylinder, text: "Параболический цилиндр" },
                 { scene: EScene.ellipsoid, text: "Элипсоид" },
                 { scene: EScene.pyramid, text: "Пирамида" },

@@ -5,8 +5,7 @@ class ParabolicCylinder extends Surface {
         a: number = 0.5,
         x1: number = -4,
         x2: number = 4,
-        z1: number = -4,
-        z2: number = 4,
+        width: number = 6,
         color: string = '#0000ff',
         center: Point = new Point(),
         edgeCount: number = 32
@@ -16,7 +15,6 @@ class ParabolicCylinder extends Surface {
         const polygons: Polygon[] = [];
 
         center.x -= (x1 + x2) / 2;
-        center.z -= (z1 + z2) / 2;
 
         for (let i = 0; i < edgeCount; i++) {
             for (let j = 0; j < edgeCount; j++) {
@@ -25,7 +23,7 @@ class ParabolicCylinder extends Surface {
                 vertices.push(new Point(
                     x + center.x,
                     a * x * x + center.y,
-                    j * eps + center.z
+                    j * width / (edgeCount - 1) + center.z - width / 2
                 ));
             }
         }
