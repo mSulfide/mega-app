@@ -14,14 +14,12 @@ class ParabolicCylinder extends Surface {
         const edges: Edge[] = [];
         const polygons: Polygon[] = [];
 
-        center.x -= (x1 + x2) / 2;
-
         for (let i = 0; i < edgeCount; i++) {
             for (let j = 0; j < edgeCount; j++) {
                 const eps: number = (x2 - x1) / (edgeCount - 1);
                 const x: number = i * eps + x1;
                 vertices.push(new Point(
-                    x + center.x,
+                    x + center.x - (x1 + x2) / 2,
                     a * x * x + center.y,
                     j * width / (edgeCount - 1) + center.z - width / 2
                 ));
