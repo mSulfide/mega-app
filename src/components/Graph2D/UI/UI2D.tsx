@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TFunction } from "../Graph2D";
 import Func from "./Func/Func";
+import useFunction from "./hooks/useFunction";
 
 type TUI2D = {
     funcs: TFunction[];
@@ -10,15 +11,22 @@ type TUI2D = {
 const UI2D: React.FC<TUI2D> = (props: TUI2D) => {
     const { funcs, reRender } = props;
     const [count, setCount] = useState(funcs.length);
+    const [getFunction] = useFunction();
 
     const addFunction = () => {
         const func: TFunction = {
-            f: () => 0,
+            f: getFunction('0'),
             color: "#000000",
             lineWidth: 2
         }
         funcs.push(func);
         setCount(funcs.length);
+    }
+
+    const delFunction = (index: number): void => {
+        funcs.splice(index, 1);
+        setCount(funcs.length);
+        reRender();
     }
 
     return (<>
@@ -29,6 +37,7 @@ const UI2D: React.FC<TUI2D> = (props: TUI2D) => {
                     key={index}
                     func={func}
                     reRender={reRender}
+                    delFunction={() => delFunction(index)}
                 />
             )
         }</div>

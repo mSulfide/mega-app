@@ -1,23 +1,20 @@
 import { KeyboardEvent } from "react";
 import { TF, TFunction } from "../../Graph2D";
+import useFunction from "../hooks/useFunction";
 
 type TFunc = {
     func: TFunction;
     reRender: () => void;
+    delFunction: () => void;
 }
 
 const Func: React.FC<TFunc> = (props: TFunc) => {
-    const { func, reRender } = props;
+    const { func, reRender, delFunction } = props;
+    const [getFunction, getFunctionBody] = useFunction();
 
     const changeFunction = (event: KeyboardEvent<HTMLInputElement>) => {
-        try {
-            let f: TF = () => 0;
-            eval(`f = x => ${event.currentTarget.value};`);
-            func.f = f;
-            reRender();
-        } catch (e) {
-            console.log(e);
-        }
+        func.f = getFunction(event.currentTarget.value)
+        reRender();
     }
 
     const changeColor = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -31,9 +28,22 @@ const Func: React.FC<TFunc> = (props: TFunc) => {
     }
 
     return (<div>
-        <input placeholder="f(x)" onKeyUp={(event) => changeFunction(event)} />
-        <input placeholder="color" onKeyUp={(event) => changeColor(event)} />
-        <input placeholder="width" onKeyUp={(event) => changeWidth(event)} />
+        <input
+            placeholder="f(x)"
+            onKeyUp={(event) => changeFunction(event)}
+            defaultValue={getFunctionBody(func.f)}
+        />
+        <input
+            placeholder="color"
+            onKeyUp={(event) => changeColor(event)}
+            defaultValue={func.color}
+        />
+        <input
+            placeholder="width"
+            onKeyUp={(event) => changeWidth(event)}
+            defaultValue={func.lineWidth}
+        />
+        <button onClick={delFunction}>-</button>
     </div>);
 }
 
