@@ -14,13 +14,7 @@ class ParabolicCylinder extends Function3D {
 
         super(
             (x: number, z: number) => a * x * x,
-            x1,
-            x2,
-            -width / 2,
-            width / 2,
-            color,
-            center,
-            edgeCount
+            x1, x2, -width / 2, width / 2, color, center, edgeCount
         );
     }
 }

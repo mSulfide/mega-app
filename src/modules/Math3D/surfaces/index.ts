@@ -8,5 +8,6 @@ import ParabolicCylinder from "./ParabolicCylinder";
 import EllipticalCylinder from "./EllipticalCylinder";
 import HyperbolicCylinder from "./HyperbolicCylinder";
 import HyperbolicParaboloid from "./HyperbolicParaboloid";
+import EllipticalParaboloid from "./EllipticalParaboloid";
 
-export { HyperbolicParaboloid, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus }
+export { EllipticalParaboloid, HyperbolicParaboloid, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus }
