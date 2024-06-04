@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Graph, { TWIN3D } from "../../modules/Graph/Graph";
-import { Math3D, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
+import { Math3D, HyperbolicParaboloid, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
 import Checkbox3D from "./Checkbox3D/Checkbox3D";
 import Select3D from "./Select3D/Select3D";
 
@@ -15,6 +15,7 @@ export enum ECustom {
 }
 
 export enum EScene {
+    hyperbolicParaboloid = 'hyperbolicParaboloid',
     hyperbolicCylinder = 'hyperbolicCylinder',
     ellipticalCylinder = 'ellipticalCylinder',
     parabolicCylinder = 'parabolicCylinder',
@@ -54,6 +55,7 @@ const Graph3D: React.FC = () => {
     }
 
     const scenes = {
+        [EScene.hyperbolicParaboloid]: [new HyperbolicParaboloid()],
         [EScene.hyperbolicCylinder]: [new HyperbolicCylinder()],
         [EScene.ellipticalCylinder]: [new EllipticalCylinder()],
         [EScene.parabolicCylinder]: [new ParabolicCylinder()],
@@ -245,7 +247,7 @@ const Graph3D: React.FC = () => {
         }
     }, [graph]);
 
-    changeScene(EScene.hyperbolicCylinder);
+    changeScene(EScene.hyperbolicParaboloid);
 
     return (<div>
         <canvas id={canvasId}></canvas>
@@ -274,6 +276,7 @@ const Graph3D: React.FC = () => {
         </div>
         <Select3D
             scenes={[
+                { scene: EScene.hyperbolicParaboloid, text: "Гиперболический параболоид" },
                 { scene: EScene.hyperbolicCylinder, text: "Гиперболический цилиндр" },
                 { scene: EScene.ellipticalCylinder, text: "Эллиптический цилиндр" },
                 { scene: EScene.parabolicCylinder, text: "Параболический цилиндр" },
