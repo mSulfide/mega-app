@@ -9,5 +9,6 @@ import EllipticalCylinder from "./EllipticalCylinder";
 import HyperbolicCylinder from "./HyperbolicCylinder";
 import HyperbolicParaboloid from "./HyperbolicParaboloid";
 import EllipticalParaboloid from "./EllipticalParaboloid";
+import KleinBottle from "./KleinBottle";
 
-export { EllipticalParaboloid, HyperbolicParaboloid, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus }
+export { KleinBottle, EllipticalParaboloid, HyperbolicParaboloid, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus }
