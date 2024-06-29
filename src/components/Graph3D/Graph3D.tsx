@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Graph, { TWIN3D } from "../../modules/Graph/Graph";
-import { Math3D, KleinBottle, EllipticalParaboloid, HyperbolicParaboloid, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
+import { Math3D, KleinBottle, Zachet, EllipticalParaboloid, HyperbolicParaboloid, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
 import Checkbox3D from "./Checkbox3D/Checkbox3D";
 import Select3D from "./Select3D/Select3D";
 
@@ -15,6 +15,7 @@ export enum ECustom {
 }
 
 export enum EScene {
+    zachet = 'zachet',
     kleinBottle = 'kleinBottle',
     ellipticalParaboloid = 'ellipticalParaboloid',
     hyperbolicParaboloid = 'hyperbolicParaboloid',
@@ -57,6 +58,7 @@ const Graph3D: React.FC = () => {
     }
 
     const scenes = {
+        [EScene.zachet]: [new Zachet()],
         [EScene.kleinBottle]: [new KleinBottle()],
         [EScene.ellipticalParaboloid]: [new EllipticalParaboloid()],
         [EScene.hyperbolicParaboloid]: [new HyperbolicParaboloid()],
@@ -173,8 +175,9 @@ const Graph3D: React.FC = () => {
                     r = Math.round(r * lumen);
                     g = Math.round(g * lumen);
                     b = Math.round(b * lumen);
-                    if (graph)
+                    if (graph) {
                         graph.polygon(points, polygon.rgbToHex(r, g, b));
+                    }
                 });
             }
 
@@ -251,7 +254,7 @@ const Graph3D: React.FC = () => {
         }
     }, [graph]);
 
-    changeScene(EScene.kleinBottle);
+    changeScene(EScene.zachet);
 
     return (<div>
         <canvas id={canvasId}></canvas>
@@ -280,6 +283,7 @@ const Graph3D: React.FC = () => {
         </div>
         <Select3D
             scenes={[
+                { scene: EScene.zachet, text: "Зачёт" },
                 { scene: EScene.kleinBottle, text: "Бутылка Клейна" },
                 { scene: EScene.ellipticalParaboloid, text: "Эллиптический параболоид" },
                 { scene: EScene.hyperbolicParaboloid, text: "Гиперболический параболоид" },

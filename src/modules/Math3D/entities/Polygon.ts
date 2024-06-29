@@ -39,8 +39,11 @@ class Polygon {
         };
     }
 
-    rgbToHex(r: number, g: number, b: number) {
-        return `rgb(${r},${g},${b})`;
+    rgbToHex(r?: number, g?: number, b?: number) {
+        const red: number = r || this.color.r;
+        const green: number = g || this.color.g;
+        const blue: number = b || this.color.b;
+        return `rgb(${red},${green},${blue})`;
     }
 }
 

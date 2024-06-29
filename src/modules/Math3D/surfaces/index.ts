@@ -10,5 +10,6 @@ import HyperbolicCylinder from "./HyperbolicCylinder";
 import HyperbolicParaboloid from "./HyperbolicParaboloid";
 import EllipticalParaboloid from "./EllipticalParaboloid";
 import KleinBottle from "./KleinBottle";
+import Zachet from "./Zachet";
 
-export { KleinBottle, EllipticalParaboloid, HyperbolicParaboloid, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus }
+export { Zachet, KleinBottle, EllipticalParaboloid, HyperbolicParaboloid, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus }

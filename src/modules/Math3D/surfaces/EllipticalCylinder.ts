@@ -8,7 +8,7 @@ class EllipticalCylinder extends Surface {
         color: string = '#ff8800',
         center: Point = new Point(),
         verticalEdgeCount: number = 20,
-        horizontalEdgeCount: number = 5
+        horizontalEdgeCount: number = 8
     ) {
         const vertices: Point[] = [];
         const edges: Edge[] = [];
