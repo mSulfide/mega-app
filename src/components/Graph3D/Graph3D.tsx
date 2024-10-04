@@ -58,7 +58,9 @@ const Graph3D: React.FC = () => {
     }
 
     const scenes = {
-        [EScene.zachet]: [new Zachet()],
+        [EScene.zachet]: [new Zachet(), new Zachet((x, z) => {
+            return -Math.sqrt(x * x + z * z);
+        }, '#ff6600')],
         [EScene.kleinBottle]: [new KleinBottle()],
         [EScene.ellipticalParaboloid]: [new EllipticalParaboloid()],
         [EScene.hyperbolicParaboloid]: [new HyperbolicParaboloid()],

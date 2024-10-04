@@ -6,13 +6,15 @@ import StudentSimulator from './components/StudentSimulator/StudentSimulator';
 import Graph2D from './components/Graph2D/Graph2D';
 import Calc from './components/Calc/Calc';
 import Graph3D from './components/Graph3D/Graph3D';
+import MegaGame from './components/MegaGame/MegaGame';
 
 export enum EPages {
   graph2D = 'graph2D',
   graph3D = 'graph3D',
   calculator = 'UniCalculator',
   studentSimulator = 'studentSimulator',
-  esse = 'esse'
+  esse = 'esse',
+  megaGame = 'megaGame'
 }
 
 const App: React.FC = () => {
@@ -27,6 +29,7 @@ const App: React.FC = () => {
       {pageName === EPages.studentSimulator && <StudentSimulator />}
       {pageName === EPages.graph2D && <Graph2D />}
       {pageName === EPages.calculator && <Calc />}
+      {pageName === EPages.megaGame && <MegaGame />}
     </div>
   );
 }
