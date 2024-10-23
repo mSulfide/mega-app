@@ -1,17 +1,16 @@
+import { DEFAULT_ECDH_CURVE } from "tls";
 import { Edge, Point, Polygon, Surface } from "../entities";
-
-type TF3D = (x: number, z: number) => number;
+import Function3D, { TF3D } from "./Function3D";
+import { escapeLeadingUnderscores } from "typescript";
 
 class Zachet extends Surface {
     constructor(
-        f: TF3D = (x, z) => {
-            return Math.sqrt(x * x + z * z);
-        },
-        color?: string,
+        f: TF3D = (x, z) => Math.sqrt(x * x + z * z),
         x1: number = -4,
         x2: number = 4,
         z1: number = -4,
         z2: number = 4,
+        color?: string, //color: string | undefined = undefined,
         center: Point = new Point(),
         edgeCount: number = 32
     ) {
@@ -43,12 +42,11 @@ class Zachet extends Surface {
                     (i - 1) * edgeCount + j,
                     i * edgeCount + j,
                     i * edgeCount + j - 1
-                ], color || (i < edgeCount * 20 / 21 && 
-                i + j > edgeCount * 9 / 8 &&
-                i - j < edgeCount * 3 / 5 &&
-                -i + j < edgeCount * -1 / 8 &&
-                i + j < edgeCount * 8 / 5
-                ? '#990000' : '#ff6600')));
+                ], ((i - edgeCount/2)**2 + (j - edgeCount / 2)**2 < (edgeCount * 1/5)**2) || 
+                (Math.abs(j - edgeCount / 2) < edgeCount / 20 || Math.abs(i - edgeCount / 2) < edgeCount / 20 || 
+                Math.abs(i + j - edgeCount) < edgeCount / 20 || Math.abs(- i + j) < edgeCount / 20 ) && 
+                ((i - edgeCount/2)**2 + (j - edgeCount / 2)**2 < (edgeCount * 2/5)**2)
+                ? "#FFFF00" : "#333333"));
             }
         }
         

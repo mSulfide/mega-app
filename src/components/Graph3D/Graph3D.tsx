@@ -58,9 +58,7 @@ const Graph3D: React.FC = () => {
     }
 
     const scenes = {
-        [EScene.zachet]: [new Zachet(), new Zachet((x, z) => {
-            return -Math.sqrt(x * x + z * z);
-        }, '#ff6600')],
+        [EScene.zachet]: [new Zachet(), new Zachet((x, z) => -Math.sqrt(x * x + z * z))],
         [EScene.kleinBottle]: [new KleinBottle()],
         [EScene.ellipticalParaboloid]: [new EllipticalParaboloid()],
         [EScene.hyperbolicParaboloid]: [new HyperbolicParaboloid()],
@@ -224,9 +222,9 @@ const Graph3D: React.FC = () => {
             callbacks: { wheel, mousemove, mouseleave, mouseup, mousedown }
         });
 
-        const interval = setInterval(() => {
+        /*const interval = setInterval(() => {
             scene.forEach(surface => surface.doAnimation(math3D));
-        }, 50);
+        }, 50);*/
 
         let currentFPS = 0;
         let FPS = 0;
@@ -252,7 +250,7 @@ const Graph3D: React.FC = () => {
         return () => {
             graph = null;
             window.cancelAnimationFrame(idLoop);
-            clearInterval(interval);
+            //clearInterval(interval);
         }
     }, [graph]);
 
