@@ -3,6 +3,8 @@ import Graph, { TWIN3D } from "../../modules/Graph/Graph";
 import { Math3D, KleinBottle, Zachet, EllipticalParaboloid, HyperbolicParaboloid, HyperbolicCylinder, EllipticalCylinder, ParabolicCylinder, Ellipsoid, Pyramid, Cone, Cube, Sphere, Torus, Point, Edge, Polygon, EDistance, Surface, Light } from "../../modules/Math3D"
 import Checkbox3D from "./Checkbox3D/Checkbox3D";
 import Select3D from "./Select3D/Select3D";
+import SingleHyp from "../../modules/Math3D/surfaces/SingleHyp";
+import DoubleHyp from "../../modules/Math3D/surfaces/DoubleHyp";
 
 export enum ECustom {
     canMove = 'canMove',
@@ -13,6 +15,7 @@ export enum ECustom {
     drawEdges = 'drawEdges',
     drawPolygons = 'drawPolygons'
 }
+
 
 export enum EScene {
     zachet = 'zachet',
@@ -27,7 +30,9 @@ export enum EScene {
     cone = 'cone',
     cube = 'cube',
     sphere = 'sphere',
-    torus = 'torus'
+    torus = 'torus',
+    singleHyp = "singleHyp",
+    doubleHyp = "doubleHyp"
 }
 
 const Graph3D: React.FC = () => {
@@ -70,7 +75,9 @@ const Graph3D: React.FC = () => {
         [EScene.cone]: [new Cone()],
         [EScene.cube]: [new Cube()],
         [EScene.sphere]: [new Sphere()],
-        [EScene.torus]: [new Torus()]
+        [EScene.torus]: [new Torus()],
+        [EScene.singleHyp]: [new SingleHyp()],
+        [EScene.doubleHyp]: [new DoubleHyp()]
     }
 
     const mouseup = (event: MouseEvent): void => {
@@ -254,7 +261,7 @@ const Graph3D: React.FC = () => {
         }
     }, [graph]);
 
-    changeScene(EScene.zachet);
+    changeScene(EScene.singleHyp);
 
     return (<div>
         <canvas id={canvasId}></canvas>
@@ -283,6 +290,8 @@ const Graph3D: React.FC = () => {
         </div>
         <Select3D
             scenes={[
+                { scene: EScene.singleHyp, text: "Одинокий хайп" },
+                { scene: EScene.doubleHyp, text: "Двуполостный гиперболлоид" },
                 { scene: EScene.zachet, text: "Зачёт" },
                 { scene: EScene.kleinBottle, text: "Бутылка Клейна" },
                 { scene: EScene.ellipticalParaboloid, text: "Эллиптический параболоид" },
